@@ -18,7 +18,7 @@ ws('wss://bnw.im/ws?v=2', json => {
   }
 
   var post = [
-    '@' + message.user,
+    '@' + message.user + ':',
     message.text,
     'https://meow.bnw.im/p/' + message.id
   ].join('\n\n')
