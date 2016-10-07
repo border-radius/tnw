@@ -1,0 +1,25 @@
+{
+  "name": "telegram-and-whores",
+  "version": "1.0.0",
+  "description": "get fresh autistic jokes right in your telegram",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/border-radius/telegram-and-whores.git"
+  },
+  "author": "border-radius",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/border-radius/telegram-and-whores/issues"
+  },
+  "homepage": "https://github.com/border-radius/telegram-and-whores#readme",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "mongoose": "^4.6.3",
+    "node-telegram-bot-api": "^0.23.3",
+    "ws": "^1.1.1"
+  }
+}
