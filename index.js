@@ -27,7 +27,7 @@ ws('wss://bnw.im/ws?v=2', json => {
     subscribed: { $ne: null }
   }).then(users => {
     Promise.each(users, user => {
-      return bot.sendMessage(user.id, post)
+      return bot.sendMessage(user.id, post).catch(e => console.error(e))
     })
   })
 })
