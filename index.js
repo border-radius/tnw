@@ -10,11 +10,16 @@ var ws = require('./lib/ws')
 ws('wss://bnw.im/ws?v=2', event => {
   switch (event.type) {
     case 'new_message':
+      var tags = event.tags ?
+        event.tags.map(tag => '#' + tag.replace(/\s/g, '_'))
+        .filter(tag => event.text.indexOf(tag) === -1).join(' ') :
+        ''
       var post = [
         '@' + event.user + ':',
         event.text,
+        tags,
         'https://6nw.im/p/' + event.id
-      ].join('\n\n')
+      ].filter(item => !!item).join('\n\n')
 
       user.find({
         subscribed: { $ne: null }
