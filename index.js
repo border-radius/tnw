@@ -70,7 +70,7 @@ ws('wss://bnw.im/comments/ws', comment => {
     }
 
     var post = [
-      '@' + comment.user,
+      '@' + comment.user + ':',
       '>' + subscription.text.slice(0, 60),
       '',
       comment.text,
