@@ -4,6 +4,7 @@
   "description": "get fresh autistic jokes right in your telegram",
   "main": "index.js",
   "scripts": {
+    "start": "nodejs index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
