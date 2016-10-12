@@ -17,10 +17,10 @@ ws('wss://bnw.im/ws?v=2', event => {
         .filter(tag => event.text.indexOf(tag) === -1).join(' ') :
         ''
       var post = [
-        '@' + event.user + ':',
+        event.user + ':',
         event.text,
         tags,
-        'https://6nw.im/p/' + event.id
+        '6nw.im/p/' + event.id
       ].filter(item => !!item).join('\n\n')
 
       user.find({
@@ -54,7 +54,7 @@ ws('wss://bnw.im/ws?v=2', event => {
           return
         }
 
-        var post = '@' + newRecommendation + ' recommended your post https://6nw.im/p/' + event.id + '\n>' + subscription.text.slice(0, 60)
+        var post = newRecommendation + ' 🔃 6nw.im/p/' + event.id + ' "' + subscription.text.slice(0, 60) + '"'
         bot.sendMessage(subscription.userid, post)
         subscription.recommendations = event.recommendations
         subscription.save()
@@ -122,11 +122,11 @@ ws('wss://bnw.im/comments/ws', comment => {
     }
 
     var post = [
-      '@' + comment.user + ':',
+      comment.user + ':',
       results.quote ? results.quote + '\n' : '',
       comment.text,
       '',
-      'https://6nw.im/p/' + comment.id.replace('/', '#')
+      '6nw.im/p/' + comment.id.replace('/', '#')
     ].join('\n')
 
     return Promise.each(results.ids, id => {
