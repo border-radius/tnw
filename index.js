@@ -2,6 +2,8 @@
 
 var Promise = require('bluebird')
 var request = require('request')
+var lodash = require('lodash')
+var bnw = require('./lib/bnw')
 var bot = require('./lib/bot')
 var user = require('./lib/user')
 var message = require('./lib/message')
@@ -62,28 +64,79 @@ ws('wss://bnw.im/ws?v=2', event => {
 })
 
 ws('wss://bnw.im/comments/ws', comment => {
-  message.findOne({
-    message: comment.replyto || comment.message,
-    subscribed: { $ne: null }
-  }).then(subscription => {
-    if (!subscription) {
-      return
+  var mentions = comment.text.match(/@[A-z0-9\-]+/g) || []
+  mentions = mentions.map(mention => mention.slice(1))
+
+  var props = {
+    message: message.findOne({
+      message: comment.replyto || comment.message,
+      subscribed: { $ne: null }
+    }),
+    users: user.find({
+      bnw_username: {
+        $in: mentions
+      }
+    })
+  }
+
+  if (!comment.replyto) {
+    props.thread = bnw({
+      endpoint: 'show',
+      qs: {
+        message: comment.message
+      }
+    }).then(show => {
+      var thread = show.messages.pop()
+      return user.find({
+        bnw_username: thread.user
+      }).then(user => ({
+        user: user && user[0],
+        thread: thread
+      }))
+    })
+  }
+
+  Promise.props(props).then(results => {
+    var ids = (results.users || []).map(user => user.id)
+
+    if (results.message) {
+      ids.push(results.message.userid)
     }
 
+    if (results.thread && results.thread.user) {
+      ids.push(results.thread.user.id)
+    }
+
+    var quote = results.thread ?
+                '> ' + results.thread.thread.text.slice(0, 60) :
+                comment.replyto ?
+                '> ' + comment.replytotext : ''
+
+    return {
+      ids: lodash.uniq(lodash.compact(ids)),
+      quote: quote
+    }
+  }).then(results => {
     if (comment.replyto) {
       comment.text = comment.text.split(' ').slice(1).join(' ')
     }
 
     var post = [
       '@' + comment.user + ':',
-      '>' + subscription.text.slice(0, 60),
-      '',
+      results.quote ? results.quote + '\n' : '',
       comment.text,
       '',
       'https://6nw.im/p/' + comment.id.replace('/', '#')
     ].join('\n')
 
-    bot.sendMessage(subscription.userid, post)
+    return Promise.each(results.ids, id => {
+      return new Promise((resolve, reject) => {
+        bot.sendMessage(id, post).then(resolve).catch(e => {
+          console.error(user.id, e.message)
+          resolve()
+        })
+      })
+    })
   })
 })
 
