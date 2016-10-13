@@ -13,14 +13,13 @@ ws('wss://bnw.im/ws?v=2', event => {
   switch (event.type) {
     case 'new_message':
       var tags = event.tags ?
-        event.tags.map(tag => '#' + tag.replace(/\s/g, '_'))
-        .filter(tag => event.text.indexOf(tag) === -1).join(' ') :
+        event.tags.map(tag => '#' + tag.replace(/\s+/g, '_'))
+        .filter(tag => event.text.toLowerCase().indexOf(tag.toLowerCase()) === -1).join(' ') :
         ''
       var post = [
         event.user + ':',
         event.text,
-        tags,
-        '6nw.im/p/' + event.id
+        '6nw.im/p/' + event.id + ' ' + tags.join(' ')
       ].filter(item => !!item).join('\n\n')
 
       user.find({
