@@ -19,7 +19,7 @@ ws('wss://bnw.im/ws?v=2', event => {
       var post = [
         event.user + ':',
         event.text,
-        '6nw.im/p/' + event.id + ' ' + tags.join(' ')
+        '6nw.im/p/' + event.id + ' ' + tags
       ].filter(item => !!item).join('\n\n')
 
       user.find({
