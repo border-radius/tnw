@@ -12,6 +12,7 @@ Create `config.json` like this:
   "mongodb": "mongodb://localhost/tnw",
   "token": "telegram_bot_token",
   "bnwtoken": "bnw_bot_token",
+  "blacklist": [],
   "options": {
     "polling": 5
   }
