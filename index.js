@@ -26,6 +26,10 @@ ws('wss://bnw.im/ws?v=2', event => {
         subscribed: { $ne: null }
       }).then(users => {
         Promise.each(users, user => {
+          if (user.blacklist && user.blacklist.indexOf(event.user) > -1) {
+            return
+          }
+
           return new Promise((resolve, reject) => {
             bot.sendMessage(user.id, post).then(resolve).catch(e => {
               console.error(user.username, user.id, e.message)
