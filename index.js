@@ -7,6 +7,7 @@ var bnw = require('./lib/bnw')
 var bot = require('./lib/bot')
 var user = require('./lib/user')
 var message = require('./lib/message')
+var utils = require('./lib/utils')
 var ws = require('./lib/ws')
 
 
