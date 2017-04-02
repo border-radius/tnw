@@ -31,12 +31,12 @@ ws('wss://bnw.im/ws?v=2', event => {
         if (user.blacklist && user.blacklist.indexOf(event.user) > -1) {
           return
         }
-        
+
         if (event.user == user.bnw_username) {
           var options = {
             reply_markup: JSON.stringify({
               inline_keyboard: [
-              [{ text: 'Open thread', url: user.bnw_url + event.id },
+              [{ text: 'Open thread', url: utils.getCorrectUrl(user.bnw_url) + event.id },
                { text: 'Delete', callback_data: 'd:' + event.id }],
               ]
             })
@@ -45,7 +45,7 @@ ws('wss://bnw.im/ws?v=2', event => {
           var options = {
             reply_markup: JSON.stringify({
               inline_keyboard: [
-              [{ text: 'Open thread', url: user.bnw_url + event.id },
+              [{ text: 'Open thread', url: utils.getCorrectUrl(user.bnw_url) + event.id },
                { text: 'Recommend', callback_data: 'r:' + event.id }],
               ]
             })
