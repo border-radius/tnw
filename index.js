@@ -19,10 +19,10 @@ ws('wss://bnw.im/ws?v=2', event => {
     .filter(tag => event.text.toLowerCase().indexOf(tag.toLowerCase()) === -1).join(' ') :
     ''
     var post = [
-    event.user + ':',
+    '/' + event.id + ' ' + event.user + ':',
     event.text,
-    '#' + event.id + ' ' + tags
-    ].filter(item => !!item).join('\n\n')
+    tags ? tags : ''
+    ].filter(item => !!item).join('\n')
 
 
     user.find({
@@ -38,6 +38,7 @@ ws('wss://bnw.im/ws?v=2', event => {
             reply_markup: JSON.stringify({
               inline_keyboard: [
               [{ text: 'Open thread', url: utils.getCorrectUrl(user.bnw_url) + event.id },
+               { text: 'Replies', callback_data: 'w:' + event.id },
                { text: 'Delete', callback_data: 'd:' + event.id }],
               ]
             })
@@ -47,6 +48,7 @@ ws('wss://bnw.im/ws?v=2', event => {
             reply_markup: JSON.stringify({
               inline_keyboard: [
               [{ text: 'Open thread', url: utils.getCorrectUrl(user.bnw_url) + event.id },
+               { text: 'Replies', callback_data: 'w:' + event.id },
                { text: 'Recommend', callback_data: 'r:' + event.id }],
               ]
             })
@@ -149,12 +151,13 @@ ws('wss://bnw.im/comments/ws', comment => {
     }
 
     var post = [
-    comment.user + ':',
-    results.quote ? results.quote + '\n' : '',
+    '/' + comment.id.replace('/','_'),
+    comment.replyto ? '→ /' + comment.replyto.replace('/','_') : '',
+    comment.user + ':\n',
+    results.quote ? results.quote + '\n\n' : '',
     comment.text,
-    '',
-    '6nw.im/p/' + comment.id.replace('/', '#')
-    ].join('\n')
+    '\n\n/'+ comment.id.split('/')[0]
+    ].join(' ')
 
     return Promise.each(results.ids, id => {
       return new Promise((resolve, reject) => {
