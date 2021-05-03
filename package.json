@@ -1,5 +1,5 @@
 {
-  "name": "telegram-and-whores",
+  "name": "tnw",
   "version": "1.0.0",
   "description": "get fresh autistic jokes right in your telegram",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/border-radius/telegram-and-whores.git"
+    "url": "git+https://github.com/border-radius/tnw.git"
   },
   "author": "border-radius",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/border-radius/telegram-and-whores/issues"
+    "url": "https://github.com/border-radius/tnw/issues"
   },
-  "homepage": "https://github.com/border-radius/telegram-and-whores#readme",
+  "homepage": "https://github.com/border-radius/tnw#readme",
   "dependencies": {
     "bluebird": "^3.4.6",
     "lodash": "^4.16.4",
