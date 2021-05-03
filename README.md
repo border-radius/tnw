@@ -1,9 +1,9 @@
-# telegram-and-whores
+# tnw
 get fresh autistic jokes right in your telegram
 
 ### Installation
 
-Clone https://github.com/border-radius/telegram-and-whores repo and install dependencies with `npm install`.
+Clone https://github.com/border-radius/tnw repo and install dependencies with `npm install`.
 
 Create `config.json` like this:
 
